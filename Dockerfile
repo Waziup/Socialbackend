@@ -1,3 +1,3 @@
 FROM jboss/wildfly
 
-ADD target/SocialBackend.war /opt/wildfly/standalone/deployments/
+ADD target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
