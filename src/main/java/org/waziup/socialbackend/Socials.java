@@ -1,13 +1,18 @@
 
 package org.waziup.socialbackend;
 
+import com.plivo.helper.api.client.RestAPI;
+import com.plivo.helper.api.response.message.MessageResponse;
+import com.plivo.helper.exception.PlivoException;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
+import com.restfb.types.send.IdMessageRecipient;
 import com.restfb.types.send.PhoneMessageRecipient;
 import com.restfb.types.send.SendResponse;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.DELETE;
@@ -33,6 +38,12 @@ public class Socials implements Serializable {
     TwitterFactory tf;
     Twitter twitter;
     DirectMessage tweet;
+//  String api_key = "MAMJC2ZDI2NZUWMDK1NW";
+  String api_key= "MAMDA5ZDJIMDM1NZVMZD";
+//String api_token = "NDZlZWJlMmQ2MjkyNjA1M2UyODgwODllYjBhNDNh";
+String api_token = "NzRlNWJiNmU2MmFjYWJlODhlNTk3MTkyZGEzNzIy";
+RestAPI api = new RestAPI(api_key, api_token, "v1");
+    
 
     /**
      * Constructor
@@ -58,8 +69,11 @@ public class Socials implements Serializable {
             case "twitter":
                 sendTwitterMessage(user_id, message);
                 break;
+            case "sms":
+                sendSMSMessage(user_id,message);
             default:
-                sendTwitterMessage(user_id, message);
+                System.out.println("choose a channel please");
+               // sendTwitterMessage(user_id, message);
         }
 
     }
@@ -82,12 +96,14 @@ public class Socials implements Serializable {
     public void sendFacebookMessage(String messageReceiver, String message) {
         
         PhoneMessageRecipient recipient = new PhoneMessageRecipient(messageReceiver);
+      //  IdMessageRecipient recipient = new IdMessageRecipient(messageReceiver);
        // message = new Message("Just a simple text");
        
-String pageAccessToken = "EAAIcoXbuoZBgBAPWmWlbKgNfA6UQCZBYRbyq9B3KDkBzyqY25kmpWYldeT53wY61laoD0qmtD78kpsNeU3aHKq0ZBE5VmzSEt8bcbyZALEQO8Skg14o7VnyVh8NZCFsdjYxGiZCZAsl5hxZBAiyhSIh9ZBMzwK2CbtLDIFhjZAm9s6M7y4GRAsqiC73wqpvsilIfEZD";
-FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_2_9);
+String pageAccessToken = "EAACEdEose0cBAHam3rEV7nHbir6kOoRQiNoBDWbDZBQiBQsOetzMgruyVQ9HsKleu1gU49UDAXlB1VWnXaR4xptBBT510XwMZB5IXTGAinXrHo2W75vJXzJ04ayTxiU5vtsA4zYZCgDvtCtZC2kLwOfnqBiQNZAjlDeqgQOZCkSHT2ObaBBe4X7I3I4p5Msu1KZC6DvQOD3aXzLa9iO4qZCNyRN5c7ijRmZAZAIvekO7h58QZDZD";
+//pageAccessToken=pageAccessToken.substring(13,pageAccessToken.lastIndexOf("&"));
+FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_2_10);
 
-SendResponse resp = pageClient.publish("me/messages", SendResponse.class,
+/*SendResponse resp =*/ pageClient.publish("me/messages", SendResponse.class,
      Parameter.with("recipient", recipient), // the id or phone recipient
 	 Parameter.with("message", message)); // one of the messages from above
 //System.out.println("message envoyé à"+recipient);
@@ -104,9 +120,26 @@ SendResponse resp = pageClient.publish("me/messages", SendResponse.class,
         } catch (TwitterException ex) {
             Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, tweet.getId() + " did not deliver", ex);
         } finally {
-            Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered by "  + tweet.getSenderScreenName() + " to "  + tweet.getRecipientScreenName() );
+            Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered by {0} to {1}", new Object[]{tweet.getSenderScreenName(), tweet.getRecipientScreenName()});
 
         }
+    }
+    
+    public  void sendSMSMessage(String messageReceiver, String message) {
+        LinkedHashMap<String, String> params = new LinkedHashMap<> ();
+params.put("src","+393806412092");
+
+params.put("dst",messageReceiver);
+
+params.put("text",message);
+        try {
+            //PlivoMessage message = api.sendMessage(params);
+            MessageResponse msgResponse = api.sendMessage(params);
+        } catch (PlivoException ex) {
+            Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
     }
 
 }
