@@ -35,7 +35,7 @@ mvn clean install wildfly:deploy
 Test
 -----
 
-- ~~~~**Send a Twitter message**~~~~
+- **Send a Twitter message**
 
 ```
 curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
@@ -47,7 +47,7 @@ curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter
 ```
 
 
-- ~~~~**Send a SMS message**~~~~
+- **Send a SMS message**
 
 ```
 curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
@@ -58,7 +58,7 @@ Exemple :
 curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/SocialBackend/socials
 ```
 
-- ~~~~**Retrieve notifications**~~~~
+- **Retrieve notifications**
 
 ```
 curl -H "Content-Type: application/json"  -X  GET   http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
@@ -71,7 +71,7 @@ curl -H "Content-Type: application/json"  -X  GET   http://localhost:8080/Social
 
 ```
 
-- ~~~~**Delete all the notifications**~~~~
+-**Delete all the notifications**
 
 
 ```
@@ -87,7 +87,7 @@ curl -H "Content-Type: application/json"  -X  DELETE   http://localhost:8080/Soc
 ```
 
 
-- ~~~~**Delete a specific notification**~~~~
+- **Delete a specific notification**
 
 ```
 curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials/`<NOTIFICATION_ID>`
