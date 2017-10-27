@@ -74,16 +74,16 @@ public class Socials implements Serializable {
             channel = doc.getString("channel");
             switch (channel) {
                 case "facebook":
-                    sendFacebookMessage(doc.getString("user_id"), doc.getString("message"));
+                    sendFacebookMessage(doc.getString("user_id"), doc.getString("message"), doc.getString("username"));
                     break;
                 case "twitter":
-                    sendTwitterMessage(doc.getString("user_id"), doc.getString("message"));
+                    sendTwitterMessage(doc.getString("user_id"), doc.getString("message"), doc.getString("username"));
                     break;
                 case "sms":
-                    sendSMSMessage(doc.getString("user_id"), doc.getString("message"));
+                    sendSMSMessage(doc.getString("user_id"), doc.getString("message"), doc.getString("username"));
                     break;
                 default:
-                    sendTwitterMessage(doc.getString("user_id"), doc.getString("message"));
+                    sendTwitterMessage(doc.getString("user_id"), doc.getString("message"), doc.getString("username"));
             }
 
         } else {
@@ -131,7 +131,7 @@ public class Socials implements Serializable {
      * @param recipient
      * @param message
      */
-    public void sendFacebookMessage(String recipient, String message) {
+    public void sendFacebookMessage(String recipient, String message, String username) {
 
     }
 
@@ -140,13 +140,13 @@ public class Socials implements Serializable {
      * @param recipient
      * @param message
      */
-    public void sendTwitterMessage(String recipient, String message) {
+    public void sendTwitterMessage(String recipient, String message, String username) {
         try {
             tweet = twitter.sendDirectMessage(recipient, message);
-            Document notification = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Delivered").append("inserttime", LocalDateTime.now().toString());
+            Document notification = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(notification);
         } catch (TwitterException ex) {
-            Document notificationfailure = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Not delivered").append("inserttime", LocalDateTime.now().toString());
+            Document notificationfailure = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Not delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(notificationfailure);
             Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, tweet.getId() + " did not deliver", ex);
         } catch (WebApplicationException webex) {
@@ -163,7 +163,7 @@ public class Socials implements Serializable {
      * @param message
      *
      */
-    public void sendSMSMessage(String messageReceiver, String message) {
+    public void sendSMSMessage(String messageReceiver, String message, String username) {
         ResourceBundle waziupNotificationBundle = ResourceBundle.getBundle("parameters");
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         RestAPI api = new RestAPI(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"), "v1");
@@ -172,10 +172,10 @@ public class Socials implements Serializable {
         params.put("text", message);
         try {
             MessageResponse msgResponse = api.sendMessage(params);
-            Document notificationsms = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Delivered").append("inserttime", LocalDateTime.now().toString());
+            Document notificationsms = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(notificationsms);
         } catch (PlivoException ex) {
-            Document smsnotificationfailure = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Not delivered").append("inserttime", LocalDateTime.now().toString());
+            Document smsnotificationfailure = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Not delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(smsnotificationfailure);
             Logger.getLogger(org.waziup.socialbackend.core.Socials.class.getName()).log(Level.SEVERE, null, ex);
         }
