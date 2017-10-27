@@ -11,9 +11,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import com.restfb.types.Notification;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import org.bson.Document;
@@ -43,11 +47,18 @@ public class NotificationBean {
     /**
      *
      * @return
+     *
      */
     public List<Document> queryNotification() {
+        //List all the notifications stored
         List<Document> listeDocument = new ArrayList<>();
-        for (Document doc : collection.find()) {
-            listeDocument.add(doc);
+        if (collection.count() != 0) {
+            for (Document doc : collection.find()) {
+                listeDocument.add(doc);
+            }
+            Logger.getLogger("NotificationBeans").log(Level.INFO, "Notifications queried at " + LocalDateTime.now());
+        } else {
+            Logger.getLogger("NotificationBeans").log(Level.SEVERE, "No notification stored - " + LocalDateTime.now());
         }
         return listeDocument;
     }
@@ -55,8 +66,10 @@ public class NotificationBean {
     /**
      *
      * @param doc
+     *
      */
     public void createNotification(Document doc) {
+        //Persist the information to the database
         collection.insertOne(doc);
     }
 
@@ -77,9 +90,8 @@ public class NotificationBean {
                 collection.deleteOne(doc);
             }
         } else {
-            System.out.println("Impossible to delete document");
+            Logger.getLogger("NotificationBeans").log(Level.SEVERE, "No notification stored - " + LocalDateTime.now());
         }
     }
-
 
 }
