@@ -67,9 +67,7 @@ public class Socials implements Serializable {
     @POST
     @Produces("application/json")
     public Response sendNotification(Document doc) {
-
         String channel = null;
-
         if (doc != null) {
             channel = doc.getString("channel");
             switch (channel) {
@@ -89,7 +87,6 @@ public class Socials implements Serializable {
         } else {
             channel = "Invalid document";
         }
-
         return Response.accepted(channel).build();
     }
 
