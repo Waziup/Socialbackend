@@ -100,36 +100,36 @@ Test
 - **Send a Twitter message**
 
 ```
-curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
+curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/socials
 ```
 
 Example :
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/SocialBackend/socials
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/api/v1/domains/socials
 ```
 
 
 - **Send a SMS message**
 
 ```
-curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
+curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/socials
 ```
 
 Example :
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/SocialBackend/socials
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/api/v1/domains/socials
 ```
 
 - **Retrieve notifications**
 
 ```
-curl -H "Content-Type: application/json"  -X  GET   http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
+curl -H "Content-Type: application/json"  -X  GET   http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/socials
 
 ```
 Example : 
 
 ```
-curl -H "Content-Type: application/json"  -X  GET   http://localhost:8080/SocialBackend/socials
+curl -H "Content-Type: application/json"  -X  GET   http://localhost:8080/api/v1/domains/socials
 
 ```
 
@@ -137,14 +137,14 @@ curl -H "Content-Type: application/json"  -X  GET   http://localhost:8080/Social
 
 
 ```
-curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials
+curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/socials
 
 ```
 
 Example : 
 
 ```
-curl -H "Content-Type: application/json"  -X  DELETE   http://localhost:8080/SocialBackend/socials
+curl -H "Content-Type: application/json"  -X  DELETE   http://localhost:8080/api/v1/domains/socials
 
 ```
 
@@ -152,13 +152,13 @@ curl -H "Content-Type: application/json"  -X  DELETE   http://localhost:8080/Soc
 - **Delete a specific notification**
 
 ```
-curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL_SERVER>`/SocialBackend/socials/`<NOTIFICATION_ID>`
+curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/socials/`<NOTIFICATION_ID>`
 
 ```
 Example :
 
 ```
-curl -H "Content-Type: application/json" -X DELETE  http://localhost:8080/SocialAPI/socials/59f0da9f584ade1f320c8d4a
+curl -H "Content-Type: application/json" -X DELETE  http://localhost:8080/api/v1/domains/socials/59f0da9f584ade1f320c8d4a
 
 ```
 
