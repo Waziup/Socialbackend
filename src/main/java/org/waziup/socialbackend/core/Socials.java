@@ -107,6 +107,17 @@ public class Socials implements Serializable {
      *
      * @return
      */
+    @GET
+    @Produces("application/json")
+    @Path("/{id}")
+    public Document getAMessageHistory(@PathParam("id") String id) {        
+        return notificationbean.queryANotification(id);
+    }
+
+    /**
+     *
+     * @return
+     */
     @DELETE
     @Produces("application/json")
     @Path("/{id}")
@@ -143,10 +154,10 @@ public class Socials implements Serializable {
     public void sendTwitterMessage(String recipient, String message, String username) {
         try {
             tweet = twitter.sendDirectMessage(recipient, message);
-            Document notification = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
+            Document notification = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Delivered").append("username", username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(notification);
         } catch (TwitterException ex) {
-            Document notificationfailure = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Not delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
+            Document notificationfailure = new Document("user_id", recipient).append("channel", "twitter").append("message", message).append("status", "Not delivered").append("username", username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(notificationfailure);
             Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, tweet.getId() + " did not deliver", ex);
         } catch (WebApplicationException webex) {
@@ -172,10 +183,10 @@ public class Socials implements Serializable {
         params.put("text", message);
         try {
             MessageResponse msgResponse = api.sendMessage(params);
-            Document notificationsms = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
+            Document notificationsms = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Delivered").append("username", username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(notificationsms);
         } catch (PlivoException ex) {
-            Document smsnotificationfailure = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Not delivered").append("username",username).append("inserttime", LocalDateTime.now().toString());
+            Document smsnotificationfailure = new Document("user_id", messageReceiver).append("channel", "SMS").append("message", message).append("status", "Not delivered").append("username", username).append("inserttime", LocalDateTime.now().toString());
             notificationbean.createNotification(smsnotificationfailure);
             Logger.getLogger(org.waziup.socialbackend.core.Socials.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -11,7 +11,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import com.restfb.types.Notification;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +64,16 @@ public class NotificationBean {
 
     /**
      *
+     * @param id
+     * @return
+     */
+    public Document queryANotification(String id) {
+        Logger.getLogger("NotificationBeans").log(Level.INFO, "Notifications  " + id + "queried at " + LocalDateTime.now());
+        return collection.find(eq("_id", new ObjectId(id))).first();
+    }
+
+    /**
+     *
      * @param doc
      *
      */
@@ -79,6 +88,7 @@ public class NotificationBean {
      */
     public void deleteOneNotification(String id) {
         collection.deleteOne(eq("_id", new ObjectId(id)));
+        Logger.getLogger("NotificationBeans").log(Level.INFO, "Notifications  " + id + "deleted at " + LocalDateTime.now());
     }
 
     /**
