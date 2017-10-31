@@ -8,26 +8,31 @@ It is meant to provide a unified interface to social networks such as Facebook, 
 
 
 Requirements
--------
+---
 
 First, you should have installed:
-- Docker ( [here](https://docs.docker.com/get-started/part2/)  the complete documentation)
+
+- Docker 
+
 - MongoDB
 
-- ** The API container**
 
-To create the image based on the Dockerfile of the API : 
+Running the social backend API in a docker container
+---
+
+
+To create the image based on the Dockerfile of the API 
 
 ```
- docker build - t <IMAGE_NAME> .
- ```
+ docker build -t <IMAGE_NAME> .
 
-Note:  The dot (.) at the end of the command is mandatory
+```
+Exemple :
 
-exemple : 
 
 ```
 docker build -t  waziupbackend .
+
 ```
 
 To start a container based on the image : 
@@ -43,7 +48,8 @@ docker run -d  waziupbackend
 ```
 
 
-- ** MongoDB installation and launch**
+MongoDB installation and launch
+---
 
 Download  MongoDB  from [here](https://www.mongodb.com/download-center?jmp=nav#community)  and install .
 
@@ -111,6 +117,7 @@ curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_R
 ```
 
 Example :
+
 ```
 curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
 ```
