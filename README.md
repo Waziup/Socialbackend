@@ -18,28 +18,29 @@ First, you should have installed:
 
 To create the image based on the Dockerfile of the API : 
 
-~~~
+```
  docker build - t <IMAGE_NAME> .
-~~~
+ ```
 
 Note:  The dot (.) at the end of the command is mandatory
 
 exemple : 
 
-~~~
+```
 docker build -t  waziupbackend .
-~~~
+```
 
 To start a container based on the image : 
 
-~~~
+```
 docker run  -d  <IMAGE_NAME>
-~~~
+```
+
 Exemple : 
 
-~~~
+```
 docker run -d  waziupbackend
-~~~
+```
 
 
 - ** MongoDB installation and launch**
