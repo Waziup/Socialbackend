@@ -55,12 +55,13 @@ public class NotificationBean {
             for (Document doc : collection.find()) {
                 Document d = new Document();
                 d.put("_id", doc.get("_id").toString());
-                d.put("user_id", doc.getString("user_id"));
+                d.put("userSender", doc.getString("userSender"));
+                d.put("userReceiver", doc.getString("userReceiver"));
+                d.put("user_id",doc.getString("user_id"));
                 d.put("channel", doc.getString("channel"));
                 d.put("message", doc.getString("message"));
-                d.put("username", doc.getString("username"));
                 d.put("status", doc.getString("status"));
-                d.put("inserttime", doc.getString("inserttime"));
+                d.put("insertTime", doc.getString("insertTime"));
                 listeDocument.add(d);
             }
             Logger.getLogger("NotificationBeans").log(Level.INFO, "Notifications queried at " + LocalDateTime.now());
@@ -80,12 +81,13 @@ public class NotificationBean {
         Document doc  = collection.find(eq("_id", new ObjectId(id))).first() ;
         Document d = new Document();
         d.put("_id", doc.get("_id").toString());
+        d.put("userSender", doc.getString("userSender"));
+        d.put("userReceiver", doc.getString("userReceiver"));
         d.put("user_id",doc.getString("user_id"));
         d.put("channel", doc.getString("channel"));
         d.put("message", doc.getString("message"));
-        d.put("username", doc.getString("username"));
         d.put("status", doc.getString("status"));
-        d.put("inserttime", doc.getString("inserttime"));
+        d.put("insertTime", doc.getString("insertTime"));
         return d;
     }
 

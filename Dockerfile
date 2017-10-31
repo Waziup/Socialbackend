@@ -1,10 +1,27 @@
-FROM jboss/wildfly
+FROM java:openjdk-8-jdk
 
-ADD target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
+CMD ["service firewall stop"]
 
+#Create the work directory
+RUN  mkdir -p  /opt/Socialbackend
+
+#Move the API source to /opt
+ADD . /opt/Socialbackend
+
+#Maven installation and configuration
+ENV MAVEN_VERSION 3.5.2
+
+#Maven installation
+RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
+&& mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
+&& ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+
+#Expose the port 9123
 EXPOSE 9123
 
-ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh"]
+#Compiling and running the API
 
-CMD ["-Djboss.http.port=9123", "-b", "0.0.0.0"]
+WORKDIR /opt/Socialbackend
+
+RUN mvn clean install wildfly-swarm:run
 

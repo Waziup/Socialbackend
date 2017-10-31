@@ -4,40 +4,43 @@ Social Backend
 
 The Social Backend is a component of Waziup.
 It is meant to provide a unified interface to social networks such as Facebook, Twitter, SMS...
-**Note  : The instructions below concern a local test environment. Later will publish the containerized version of the API based on Swarm.**
 
 
-Install
+
+Requirements
 -------
 
 First, you should have installed:
-- JDK 1.8
-- Wildfly 10
-- Apache Maven 3.X.X
+- Docker ( [here](https://docs.docker.com/get-started/part2/)  the complete documentation)
 - MongoDB
 
-- **JDK installation**
+- ** The API container**
 
-The first thing to do is installing the Java Developer Kit on your system. You can find the full documentation [here](http://openjdk.java.net/install/) .
-Below the instruction to install it in Debian distributions environment ( Ubuntu). 
-```
-sudo apt-get install openjdk-8-jre
-```
+To create the image based on the Dockerfile of the API : 
 
-- ** Wildfly installation and launch **
+~~~
+ docker build - t <IMAGE_NAME> .
+~~~
 
-Download Wildfly from http://www.wildfly.org/downloads/
-Unzip it and start:
-```
-cd bin
-./standalone -Djboss.http.port=<YOUR_PORT>
-```
-Where `<YOUR_PORT>` is the port on which the Wildfly instance is running.
+Note:  The dot (.) at the end of the command is mandatory
 
-Run with:
-```
-mvn clean install wildfly:deploy
-```
+exemple : 
+
+~~~
+docker build -t  waziupbackend .
+~~~
+
+To start a container based on the image : 
+
+~~~
+docker run  -d  <IMAGE_NAME>
+~~~
+Exemple : 
+
+~~~
+docker run -d  waziupbackend
+~~~
+
 
 - ** MongoDB installation and launch**
 
@@ -71,11 +74,14 @@ OAuthAccessTokenSecret=<OAuth Access Token Secret>
 
 
 
-#WhatsApp notification parameters
+#WhatsApp notification parameters (You need to be registered on https://www.whatsmate.net/whatsapp-gateway-api.html  to get the parameters below)
+INSTANCE_ID=<THE_INSTANCE_ID>
+CLIENT_ID=<THE_SENDER_CLIENT_ID_ON_WHATSMATE>
+CLIENT_SECRET=<THE_SENDER_CLIENT_SECRET_ON_WHATSMATE>
+WA_GATEWAY_URL_INCOMPLETE=http://api.whatsmate.net/v3/whatsapp/single/text/message/
 
 
-
-#SMS service parameters
+#SMS service parametersYou need to be registered on https://www.plivo.com/ to get the parameters)
 api_key=<API_KEY>
 api_token=<API_TOKEN>
 telephonesrc=<SENDER_PHONE_NUMBER>
@@ -105,7 +111,7 @@ curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_R
 
 Example :
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/api/v1/domains/waziup/socials
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
 ```
 
 
@@ -117,7 +123,7 @@ curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_
 
 Example :
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://localhost:8080/api/v1/domains/waziup/socials
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
 ```
 
 - **Retrieve notifications**
@@ -129,7 +135,18 @@ curl -H "Content-Type: application/json"  -X  GET   http://`<DOMAINE_OR_LOCAL_SE
 Example : 
 
 ```
-curl -H "Content-Type: application/json"  -X  GET   http://localhost:8080/api/v1/domains/waziup/socials
+curl -H "Content-Type: application/json"  -X  GET   http://172.17.0.2:9123/api/v1/domains/waziup/socials
+
+```
+- **Retrieve a specific notification**
+```
+curl -H "Content-Type: application/json"  -X  GET   http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials/<NOTIFICATION_ID>
+
+```
+Example : 
+
+```
+curl -H "Content-Type: application/json"  -X  GET   http://172.17.0.2:9123/api/v1/domains/waziup/socials/59f871cb40416d2aa1b80cac
 
 ```
 
@@ -144,7 +161,7 @@ curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL
 Example : 
 
 ```
-curl -H "Content-Type: application/json"  -X  DELETE   http://localhost:8080/api/v1/domains/waziup/socials
+curl -H "Content-Type: application/json"  -X  DELETE   http://172.17.0.2:9123/api/v1/domains/waziup/socials
 
 ```
 
@@ -158,7 +175,7 @@ curl -H "Content-Type: application/json"  -X  DELETE   http://`<DOMAINE_OR_LOCAL
 Example :
 
 ```
-curl -H "Content-Type: application/json" -X DELETE  http://localhost:8080/api/v1/domains/waziup/socials/59f0da9f584ade1f320c8d4a
+curl -H "Content-Type: application/json" -X DELETE  http://172.17.0.2:9123/api/v1/domains/waziup/socials/59f0da9f584ade1f320c8d4a
 
 ```
 
