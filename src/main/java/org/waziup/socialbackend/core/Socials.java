@@ -154,7 +154,7 @@ public class Socials implements Serializable {
      * @param receiverProfile
      * @param message
      */
-    public void sendFacebookMessage(/*String userSender,*/ String userReceiver, /*String receiverProfile,*/ String message) {
+    public void sendFacebookMessage(String userSender, String userReceiver, String receiverProfile, String message) {
          PhoneMessageRecipient recipient = new PhoneMessageRecipient(userReceiver);
        Message msg;
         msg = new Message(message);
