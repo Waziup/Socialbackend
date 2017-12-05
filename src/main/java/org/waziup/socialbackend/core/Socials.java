@@ -23,6 +23,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import com.restfb.types.send.PhoneMessageRecipient;
+import com.restfb.types.send.SendResponse;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
 import org.bson.Document;
 import org.waziup.socialbackend.ejb.NotificationBean;
 import twitter4j.DirectMessage;
@@ -148,7 +154,16 @@ public class Socials implements Serializable {
      * @param receiverProfile
      * @param message
      */
-    public void sendFacebookMessage(String userSender, String userReceiver, String receiverProfile, String message) {
+    public void sendFacebookMessage(/*String userSender,*/ String userReceiver, /*String receiverProfile,*/ String message) {
+         PhoneMessageRecipient recipient = new PhoneMessageRecipient(userReceiver);
+       Message msg;
+        msg = new Message(message);
+      
+String pageAccessToken = "EAAXh1hmHeq4BAIekZAddN3lvuKPzRCERfNmdT9B4oKJ8vC0OZCGl2a1GYty8nZB5ZBifhbBbbK3yNrqzgv0YTk3BDyQK9HjLnMFiZA4hJKdIGVgo9HHZC9VH0ZAO9rEx5zE7GmJZASoGZAlj1rnuuFN6qf6sZAqvSwqZC1Xo4JrOQyvnQZDZD";
+FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_2_6);
+ pageClient.publish("me/messages", SendResponse.class,
+     Parameter.with("recipient", recipient), 
+	 Parameter.with("message", msg )); 
 
     }
 
