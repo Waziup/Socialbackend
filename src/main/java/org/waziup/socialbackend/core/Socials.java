@@ -27,6 +27,7 @@ import com.restfb.types.send.PhoneMessageRecipient;
 import com.restfb.types.send.SendResponse;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.types.send.Message;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import org.bson.Document;
