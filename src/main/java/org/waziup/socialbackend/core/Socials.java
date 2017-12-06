@@ -83,7 +83,7 @@ public class Socials implements Serializable {
             channel = doc.getString("channel");
             switch (channel) {
                 case "facebook":
-                    sendFacebookMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
+                    sendFacebookMessage(/*doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),*/ doc.getString("message"));
                     break;
                 case "twitter":
                     sendTwitterMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
@@ -155,16 +155,12 @@ public class Socials implements Serializable {
      * @param receiverProfile
      * @param message
      */
-    public void sendFacebookMessage(String userSender, String userReceiver, String receiverProfile, String message) {
-         PhoneMessageRecipient recipient = new PhoneMessageRecipient(userReceiver);
-       Message msg;
-        msg = new Message(message);
-      
+    public void sendFacebookMessage(/*String userSender, String userReceiver, String receiverProfile,*/ String message) {
+               
 String pageAccessToken = "EAAXh1hmHeq4BAIekZAddN3lvuKPzRCERfNmdT9B4oKJ8vC0OZCGl2a1GYty8nZB5ZBifhbBbbK3yNrqzgv0YTk3BDyQK9HjLnMFiZA4hJKdIGVgo9HHZC9VH0ZAO9rEx5zE7GmJZASoGZAlj1rnuuFN6qf6sZAqvSwqZC1Xo4JrOQyvnQZDZD";
 FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_2_6);
- pageClient.publish("me/messages", SendResponse.class,
-     Parameter.with("recipient", recipient), 
-	 Parameter.with("message", msg )); 
+    	 pageClient.publish("me/feed", GraphResponse.class,
+  	 Parameter.with("message", message));
 
     }
 
