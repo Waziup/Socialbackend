@@ -30,6 +30,7 @@ import com.restfb.FacebookClient;
 import com.restfb.types.send.Message;
 import com.restfb.Parameter;
 import com.restfb.Version;
+import com.restfb.types.GraphResponse;
 import org.bson.Document;
 import org.waziup.socialbackend.ejb.NotificationBean;
 import twitter4j.DirectMessage;
