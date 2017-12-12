@@ -23,11 +23,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
-import com.restfb.types.send.PhoneMessageRecipient;
-import com.restfb.types.send.SendResponse;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
-import com.restfb.types.send.Message;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.GraphResponse;
@@ -38,7 +35,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-import com.plivo.api.models.message.Message;
 import com.plivo.api.models.message.MessageCreateResponse;
 import java.util.Collections;
 
@@ -90,12 +86,7 @@ public class Socials implements Serializable {
             channel = doc.getString("channel");
             switch (channel) {
                 case "facebook":
-<<<<<<< HEAD
-                    sendFacebookMessage(doc.getString("userSender"), doc.getString("userReceiver"),
-                            doc.getString("user_id"), doc.getString("message"));
-=======
-                    sendFacebookMessage(/*doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),*/ doc.getString("message"));
->>>>>>> 96dd34d7da182f41fd890072e1642cd415255fe1
+                    sendFacebookMessage(/*doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),*/doc.getString("message"));
                     break;
                 case "twitter":
                     sendTwitterMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),
@@ -177,12 +168,12 @@ public class Socials implements Serializable {
      * @param receiverProfile
      * @param message
      */
-    public void sendFacebookMessage(/*String userSender, String userReceiver, String receiverProfile,*/ String message) {
-               
-String pageAccessToken = "EAAXh1hmHeq4BAIekZAddN3lvuKPzRCERfNmdT9B4oKJ8vC0OZCGl2a1GYty8nZB5ZBifhbBbbK3yNrqzgv0YTk3BDyQK9HjLnMFiZA4hJKdIGVgo9HHZC9VH0ZAO9rEx5zE7GmJZASoGZAlj1rnuuFN6qf6sZAqvSwqZC1Xo4JrOQyvnQZDZD";
-FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_2_6);
-    	 pageClient.publish("me/feed", GraphResponse.class,
-  	 Parameter.with("message", message));
+    public void sendFacebookMessage(/*String userSender, String userReceiver, String receiverProfile,*/String message) {
+
+        String pageAccessToken = "EAAXh1hmHeq4BAIekZAddN3lvuKPzRCERfNmdT9B4oKJ8vC0OZCGl2a1GYty8nZB5ZBifhbBbbK3yNrqzgv0YTk3BDyQK9HjLnMFiZA4hJKdIGVgo9HHZC9VH0ZAO9rEx5zE7GmJZASoGZAlj1rnuuFN6qf6sZAqvSwqZC1Xo4JrOQyvnQZDZD";
+        FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_2_6);
+        pageClient.publish("me/feed", GraphResponse.class,
+                Parameter.with("message", message));
 
     }
 
@@ -226,7 +217,7 @@ FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.V
         // RestAPI api = new RestAPI(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"), "v1");
         try {
             Plivo.init(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"));
-            MessageCreateResponse response = Message.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), message)
+            MessageCreateResponse response = com.plivo.api.models.message.Message.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), message)
                     .create();
             //Persist the notification
             Document notificationsms = new Document("userSender", userSender)
@@ -268,7 +259,7 @@ FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.V
         Plivo.init(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"));
         try {
 
-            String myURI = "http://callcenter-callcenter.a3c1.starter-us-west-1.openshiftapps.com/callback/" + message ;
+            String myURI = "http://callcenter-callcenter.a3c1.starter-us-west-1.openshiftapps.com/callback/" + message;
             System.out.println(myURI);
             Call.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), myURI)
                     .answerMethod("GET")
@@ -278,17 +269,13 @@ FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.V
         }
     }
 
-    /**@GET
-    @Produces("application/xml")
-    @Path("/{answerxml}")
-    public com.plivo.api.xml.Response answerxml(@PathParam("answerxml") String answerxml) {
-        com.plivo.api.xml.Response response = new com.plivo.api.xml.Response()
-                .children(
-                        new Speak(answerxml)
-                );
-        return response;
-    } **/
-
+    /**
+     * @GET @Produces("application/xml")
+     * @Path("/{answerxml}") public com.plivo.api.xml.Response
+     * answerxml(@PathParam("answerxml") String answerxml) {
+     * com.plivo.api.xml.Response response = new com.plivo.api.xml.Response()
+     * .children( new Speak(answerxml) ); return response; } *
+     */
     /**
      *
      * @param userSender
