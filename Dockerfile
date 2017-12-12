@@ -23,5 +23,6 @@ EXPOSE 9123
 
 WORKDIR /opt/Socialbackend
 
-RUN mvn clean install wildfly-swarm:run
+RUN mvn install 
 
+ENTRYPOINT ["java", "-jar", "/opt/Socialbackend/target/SocialBackend-swarm.jar"]
