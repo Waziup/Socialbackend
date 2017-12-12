@@ -126,41 +126,25 @@ and in case of succesfful delivery of message:
 - **Send a Twitter message**
 
 ```
-<<<<<<< HEAD
 curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"}' http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
-=======
-curl  -H "Content-Type: application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
->>>>>>> 96dd34d7da182f41fd890072e1642cd415255fe1
 ```
 
 Example :
 
 ```
-<<<<<<< HEAD
 curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin}' http://172.17.0.2:9123/api/v1/domains/waziup/socials
-=======
-curl -H "Content-Type: application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
->>>>>>> 96dd34d7da182f41fd890072e1642cd415255fe1
 ```
 
 
 - **Send a SMS message**
 
 ```
-<<<<<<< HEAD
 curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"}'  http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
-=======
-curl -H "Content-Type: application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
->>>>>>> 96dd34d7da182f41fd890072e1642cd415255fe1
 ```
 
 Example :
 ```
-<<<<<<< HEAD
 curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin}'  http://172.17.0.2:9123/api/v1/domains/waziup/socials
-=======
-curl -H "Content-Type: application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
->>>>>>> 96dd34d7da182f41fd890072e1642cd415255fe1
 ```
 
 
