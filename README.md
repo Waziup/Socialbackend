@@ -105,26 +105,40 @@ and in case of succesfful delivery of message:
 - **Send a Twitter message**
 
 ```
-curl  -H "Content-Type: application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
+curl  -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<TWITTER_RECIPIENT>`", "channel":"twitter","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"}' http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
 ```
 
 Example :
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "gilbikelenter", "channel":"twitter","message":"Yibeogo Ouaga","username":"Pandaconstantin}' http://172.17.0.2:9123/api/v1/domains/waziup/socials
 ```
 
 
 - **Send a SMS message**
 
 ```
-curl -H "Content-Type: application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"} http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
+curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"sms","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"}'  http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
 ```
 
 Example :
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin} http://172.17.0.2:9123/api/v1/domains/waziup/socials
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin}'  http://172.17.0.2:9123/api/v1/domains/waziup/socials
 ```
+
+
+- **Send a voice message**
+
+```
+curl -H "Content-Type : application/json"  -X POST -d '{"user_id": "`<RECIPIENT_PHONE_NUMBER>`", "channel":"voice","message":"`<MESSAGE_TO_BE_SENT>`","username":"`<WAZIUP_USER_CONNECTED>`"}'  http://`<DOMAINE_OR_LOCAL_SERVER>`/api/v1/domains/waziup/socials
+```
+
+Example :
+```
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"voice","message":"Yibeogo Ouaga","username":"Pandaconstantin}' http://172.17.0.2:9123/api/v1/domains/waziup/socials
+```
+
+
 
 - **Retrieve notifications**
 
@@ -150,7 +164,7 @@ curl -H "Content-Type: application/json"  -X  GET   http://172.17.0.2:9123/api/v
 
 ```
 
--**Delete all the notifications**
+- **Delete all the notifications**
 
 
 ```
