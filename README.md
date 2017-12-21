@@ -21,9 +21,7 @@ Requirements
 First, you should have installed:
 
 - Docker 
-
 - MongoDB
-
 
 Running the social backend API in a docker container
 ---
@@ -32,27 +30,8 @@ Running the social backend API in a docker container
 To create the image based on the Dockerfile of the API 
 
 ```
- docker build -t <IMAGE_NAME> .
+docker build -t waziup/socialbackend .
 
-```
-Exemple :
-
-
-```
-docker build -t  waziupbackend .
-
-```
-
-To start a container based on the image : 
-
-```
-docker run  -d  <IMAGE_NAME>
-```
-
-Exemple : 
-
-```
-docker run -d  waziupbackend
 ```
 
 
