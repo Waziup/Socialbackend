@@ -1,28 +1,26 @@
-FROM java:openjdk-8-jdk
+FROM jboss/wildfly
 
-CMD ["service firewall stop"]
-
-#Create the work directory
-RUN  mkdir -p  /opt/Socialbackend
-
-#Move the API source to /opt
-ADD . /opt/Socialbackend
+USER root
 
 #Maven installation and configuration
 ENV MAVEN_VERSION 3.5.2
-
-#Maven installation
 RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
 && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
 && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
+RUN  mkdir -p  /opt/Socialbackend
+WORKDIR /opt/Socialbackend
+
+#install dependencies
+ADD pom.xml /opt/SocialBackend
+RUN mvn verify clean --fail-never
+
+#install full app
+ADD . /opt/Socialbackend
+RUN mvn install 
+
 #Expose the port 9123
 EXPOSE 9123
 
-#Compiling and running the API
-
-WORKDIR /opt/Socialbackend
-
-RUN mvn install 
-
-ENTRYPOINT ["java", "-jar", "/opt/Socialbackend/target/SocialBackend-swarm.jar"]
+#deploy
+RUN cp target/SocialBackend-swarm.jar /opt/jboss/wildfly/standalone/deployments/
