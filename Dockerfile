@@ -22,5 +22,8 @@ RUN mvn install
 #Expose the port 9123
 EXPOSE 9123
 
+#Java options
+ENV JAVA_OPTS -Xms256m -Xmx512m -Djava.net.preferIPv4Stack=true
+
 #deploy
 RUN cp target/SocialBackend-swarm.jar /opt/jboss/wildfly/standalone/deployments/
