@@ -31,20 +31,19 @@ In case of duplicate message, social services will provide the following HTTP co
 **Send a Twitter message**
 
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "test", "channel":"twitter","message":"Test", "username":"Pandaconstantin"}' http://localhost:9123/api/v1/domains/waziup/socials
+curl -H "Content-Type: application/json" -X POST -d '{"user_id": "test", "channel":"twitter","message":"Test", "username":"Pandaconstantin"}' http://localhost:9123/api/v1/domains/waziup/socials
 ```
-
 
 **Send a SMS message**
 
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin"}'  http://localhost:9123/api/v1/domains/waziup/socials
+curl -H "Content-Type: application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin"}'  http://localhost:9123/api/v1/domains/waziup/socials
 ```
 
 **Send a voice message**
 
 ```
-curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"voice","message":"Yibeogo Ouaga","username":"Pandaconstantin"}' http://localhost:9123/api/v1/domains/waziup/socials
+curl -H "Content-Type: application/json" -X POST -d '{"user_id": "+22678012589", "channel":"voice","message":"Yibeogo Ouaga","username":"Pandaconstantin"}' http://localhost:9123/api/v1/domains/waziup/socials
 ```
 
 **Retrieve notifications**
