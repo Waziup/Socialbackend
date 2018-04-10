@@ -17,10 +17,10 @@ RUN mvn verify clean --fail-never
 
 #install full app
 ADD . /opt/Socialbackend
-RUN mvn install 
+RUN mvn install
 
 #deploy
-COPY target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
+ADD target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
 
 #Expose the port 9123 and run
 EXPOSE 9123
