@@ -17,6 +17,7 @@ docker run -it -P 9123:9123 waziup/socials
 
 The API source contains a properties file ( **src/main/resources/parameters.properties**) to set a set of parameters such as the twitter sender authentication keys ,  the sender phone number, the database URI and collections.
 
+<<<<<<< HEAD
 Usage
 -----
 
@@ -35,13 +36,41 @@ curl -H "Content-Type : application/json" -X POST -d '{"user_id": "test", "chann
 ```
 
 
+=======
+Test
+----
+
+**Send a Facebook page feed message**
+
+curl -v -H "Content-Type: application/json" -d '{"channel":"facebook","message":"thisistestfromsocialsservicewaziup 4"}' http://localhost:9123/api/v1/domains/waziup/socials
+
+In case of duplicate message, social services will provide the following HTTP code:
+
+```< HTTP/1.1 500 Internal Server Error```
+
+and in case of succesfful delivery of message:
+```< HTTP/1.1 202 Accepted```
+ 
+**Send a Twitter message**
+
+```
+curl -H "Content-Type : application/json" -X POST -d '{"user_id": "test", "channel":"twitter","message":"Test", "username":"Pandaconstantin"}' http://localhost:9123/api/v1/domains/waziup/socials
+```
+
+
+>>>>>>> aa5a9b758550e0def6a6d0f1f937a27989840880
 **Send a SMS message**
 
 ```
 curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin"}'  http://localhost:9123/api/v1/domains/waziup/socials
 ```
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> aa5a9b758550e0def6a6d0f1f937a27989840880
 **Send a voice message**
 
 ```
@@ -52,12 +81,17 @@ curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589"
 
 ```
 curl -H "Content-Type: application/json" -X GET http://localhost:9123/api/v1/domains/waziup/socials
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa5a9b758550e0def6a6d0f1f937a27989840880
 ```
 
 **Retrieve a specific notification**
 
 ```
 curl -H "Content-Type: application/json" -X GET http://localhost:9123/api/v1/domains/waziup/socials/59f871cb40416d2aa1b80cac
+<<<<<<< HEAD
 ```
 
 **Delete all the notifications**
@@ -65,10 +99,25 @@ curl -H "Content-Type: application/json" -X GET http://localhost:9123/api/v1/dom
 ```
 curl -H "Content-Type: application/json" -X DELETE http://localhost:9123/api/v1/domains/waziup/socials
 ```
+=======
+
+```
+
+**Delete all the notifications**
+
+```
+curl -H "Content-Type: application/json" -X DELETE http://localhost:9123/api/v1/domains/waziup/socials
+
+```
+>>>>>>> aa5a9b758550e0def6a6d0f1f937a27989840880
 
 **Delete a specific notification**
 
 ```
 curl -H "Content-Type: application/json" -X DELETE http://localhost:9123/api/v1/domains/waziup/socials/59f0da9f584ade1f320c8d4a
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa5a9b758550e0def6a6d0f1f937a27989840880
 ```
 
