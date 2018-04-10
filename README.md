@@ -41,7 +41,6 @@ curl -H "Content-Type : application/json" -X POST -d '{"user_id": "test", "chann
 curl -H "Content-Type : application/json" -X POST -d '{"user_id": "+22678012589", "channel":"sms","message":"Yibeogo Ouaga","username":"Pandaconstantin"}'  http://localhost:9123/api/v1/domains/waziup/socials
 ```
 
-
 **Send a voice message**
 
 ```
