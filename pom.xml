@@ -76,29 +76,7 @@
             <version>4.0.0-beta-3</version>
         </dependency>       
     </dependencies>
-
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>${version.wildfly.swarm}</version>        
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>                        
-                    </execution>                   
-                </executions>
-                <configuration>    		     
-     		         <properties>
-     		          <swarm.bind.address>0.0.0.0</swarm.bind.address>
-                      <swarm.http.port>9123</swarm.http.port>
-   		            </properties>
-                </configuration>
-            </plugin>            
-        </plugins>
     </build>
-
 </project>
