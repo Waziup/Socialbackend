@@ -1,15 +1,15 @@
 FROM jboss/wildfly
 
 USER root
+RUN  mkdir -p  /opt/Socialbackend
+WORKDIR /opt/Socialbackend
+ENV JAVA_OPTS -Xms256m -Xmx512m -Djava.net.preferIPv4Stack=true
 
 #Maven installation and configuration
 ENV MAVEN_VERSION 3.5.2
 RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
 && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
 && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
-RUN  mkdir -p  /opt/Socialbackend
-WORKDIR /opt/Socialbackend
 
 #install dependencies
 ADD pom.xml /opt/SocialBackend
@@ -19,11 +19,9 @@ RUN mvn verify clean --fail-never
 ADD . /opt/Socialbackend
 RUN mvn install 
 
-#Expose the port 9123
-EXPOSE 9123
-
-#Java options
-ENV JAVA_OPTS -Xms256m -Xmx512m -Djava.net.preferIPv4Stack=true
-
 #deploy
-RUN cp target/SocialBackend-swarm.jar /opt/jboss/wildfly/standalone/deployments/
+COPY target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
+
+#Expose the port 9123 and run
+EXPOSE 9123
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-Djboss.http.port=9123"]
