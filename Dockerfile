@@ -24,4 +24,4 @@ ADD target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
 
 #Expose the port 9123 and run
 EXPOSE 9123
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-Djboss.http.port=9123"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-Djboss.http.port=9123", "-Djboss.https.port=8444"]
