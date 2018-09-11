@@ -191,6 +191,7 @@ public class Socials implements Serializable {
                     .append("user_id", receiverProfile).append("channel", "SMS").append("message", message)
                     .append("status", "Delivered").append("insertTime", LocalDateTime.now().toString());
             notificationbean.createNotification(notification);
+            Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered by {0} to {1}", new Object[]{tweet.getSenderScreenName(), tweet.getRecipientScreenName()});
         } catch (TwitterException ex) {
             Document notificationfailure = new Document("userSender", userSender).append("userReceiver", userReceiver)
                     .append("user_id", receiverProfile).append("channel", "SMS").append("message", message)
@@ -199,9 +200,6 @@ public class Socials implements Serializable {
             Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, tweet.getId() + " did not deliver", ex);
         } catch (WebApplicationException webex) {
             Logger.getLogger(Socials.class.getName()).log(Level.INFO, webex.getMessage());
-        } finally {
-            Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered by {0} to {1}",
-                    new Object[]{tweet.getSenderScreenName(), tweet.getRecipientScreenName()});
         }
     }
 
