@@ -1,8 +1,6 @@
 FROM jboss/wildfly
 
 USER root
-RUN  mkdir -p  /opt/Socialbackend
-WORKDIR /opt/Socialbackend
 ENV JAVA_OPTS -Xms256m -Xmx512m -Djava.net.preferIPv4Stack=true
 
 #Maven installation and configuration
@@ -12,7 +10,9 @@ RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binari
 && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 #install dependencies
-ADD pom.xml /opt/SocialBackend
+RUN  mkdir -p  /opt/Socialbackend
+WORKDIR /opt/Socialbackend
+ADD pom.xml /opt/Socialbackend
 RUN mvn verify clean --fail-never
 
 #install full app
@@ -20,7 +20,7 @@ ADD . /opt/Socialbackend
 RUN mvn install
 
 #deploy
-ADD target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
+RUN cp target/SocialBackend.war /opt/jboss/wildfly/standalone/deployments/
 
 #Expose the port 9123 and run
 EXPOSE 9123

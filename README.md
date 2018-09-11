@@ -12,7 +12,7 @@ To create the image based on the Dockerfile of the API:
 
 ```
 docker build -t waziup/socials .
-docker run -it -P 9123:9123 waziup/socials
+docker run -it -p 9123:9123 waziup/socials
 ```
 
 The API source contains a properties file ( **src/main/resources/parameters.properties**) to set a set of parameters such as the twitter sender authentication keys ,  the sender phone number, the database URI and collections.
