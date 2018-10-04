@@ -82,37 +82,30 @@ public class Socials implements Serializable {
     @Produces("application/json")
     public Response sendNotification(Document doc) {
         String channel = null;
+        final Response response;
         if (doc != null) {
             channel = doc.getString("channel");
             switch (channel) {
-                case "facebook":
-                    sendFacebookMessage(/*doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),*/doc.getString("message"));
-                    break;
                 case "twitter":
-                    sendTwitterMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),
-                            doc.getString("message"));
+                    response = sendTwitterMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
                     break;
                 case "sms":
-                    sendSMSMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),
-                            doc.getString("message"));
+                    response = sendSMSMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
                     break;
                 case "voice":
-                    sendVoiceMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),
-                            doc.getString("message"));
+                    response = sendVoiceMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
                     break;
-                case "whatsapp":
-                    sendWhatsAppMessage(doc.getString("userSender"), doc.getString("userReceiver"),
-                            doc.getString("user_id"), doc.getString("message"));
-                    break;
+                //case "whatsapp":
+                //    response = sendWhatsAppMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
+                //    break;
                 default:
-                    sendTwitterMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"),
-                            doc.getString("message"));
+                    response = sendTwitterMessage(doc.getString("userSender"), doc.getString("userReceiver"), doc.getString("user_id"), doc.getString("message"));
             }
 
         } else {
-            channel = "Invalid document";
+            response = Response.status(400).entity("Unrecognized channel. Supported channels are twitter, sms and voice").build();
         }
-        return Response.accepted(channel).build();
+        return response;
     }
 
     /**
@@ -184,23 +177,33 @@ public class Socials implements Serializable {
      * @param receiverProfile
      * @param message
      */
-    public void sendTwitterMessage(String userSender, String userReceiver, String receiverProfile, String message) {
+    public Response sendTwitterMessage(String userSender, String userReceiver, String receiverProfile, String message) {
+        Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, "Sending twitter to {0} with message: {1}", new Object[]{receiverProfile, message});
+        Response.ResponseBuilder response;
         try {
-            tweet = twitter.sendDirectMessage(receiverProfile, message);
+            tweet = twitter.sendDirectMessage("corentindupont2", "Test");
             Document notification = new Document("userSender", userSender).append("userReceiver", userReceiver)
                     .append("user_id", receiverProfile).append("channel", "SMS").append("message", message)
                     .append("status", "Delivered").append("insertTime", LocalDateTime.now().toString());
             notificationbean.createNotification(notification);
             Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered by {0} to {1}", new Object[]{tweet.getSenderScreenName(), tweet.getRecipientScreenName()});
+            response = Response.ok("Tweeter message sent");
+
         } catch (TwitterException ex) {
             Document notificationfailure = new Document("userSender", userSender).append("userReceiver", userReceiver)
                     .append("user_id", receiverProfile).append("channel", "SMS").append("message", message)
                     .append("status", "Not delivered").append("insertTime", LocalDateTime.now().toString());
             notificationbean.createNotification(notificationfailure);
-            Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, tweet.getId() + " did not deliver", ex);
+            Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, "Tweet did not deliver", ex);
+            response = Response.serverError();
+            response.entity("Twitter not sent: " + ex);
+
         } catch (WebApplicationException webex) {
             Logger.getLogger(Socials.class.getName()).log(Level.INFO, webex.getMessage());
+            response = Response.serverError();
+            response.entity("Application error, Twitter not sent");
         }
+        return response.build();
     }
 
     /**
@@ -210,22 +213,22 @@ public class Socials implements Serializable {
      * @param receiverPhone
      * @param message
      */
-    public void sendSMSMessage(String userSender, String userReceiver, String receiverPhone, String message) {
+    public Response sendSMSMessage(String userSender, String userReceiver, String receiverPhone, String message) {
         ResourceBundle waziupNotificationBundle = ResourceBundle.getBundle("parameters");
-        // RestAPI api = new RestAPI(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"), "v1");
+        final Response.ResponseBuilder response;
         try {
             Plivo.init(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"));
-            MessageCreateResponse response = com.plivo.api.models.message.Message.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), message)
-                    .create();
+            MessageCreateResponse resp = com.plivo.api.models.message.Message.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), message).create();
             //Persist the notification
             Document notificationsms = new Document("userSender", userSender)
                     .append("userReceiver", userReceiver)
                     .append("user_id", receiverPhone)
                     .append("channel", "SMS")
                     .append("message", message)
-                    .append("status", response.getMessage())
+                    .append("status", resp.getMessage())
                     .append("insertTime", LocalDateTime.now().toString());
             notificationbean.createNotification(notificationsms);
+            return Response.ok().build();
         } catch (PlivoRestException ex) {
             Document smsnotificationfailure = new Document("userSender", userSender)
                     .append("userReceiver", userReceiver)
@@ -236,13 +239,14 @@ public class Socials implements Serializable {
                     .append("insertTime", LocalDateTime.now().toString());
             notificationbean.createNotification(smsnotificationfailure);
             Logger.getLogger(org.waziup.socialbackend.core.Socials.class.getName()).log(Level.SEVERE, null, ex);
+            response = Response.serverError();
+            response.entity("SMS not sent: " + ex);
         } catch (IOException ex) {
             Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-
-            //  Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered");
+            response = Response.serverError();
+            response.entity("SMS not sent: " + ex);
         }
-
+        return response.build();
     }
 
     /**
@@ -252,18 +256,18 @@ public class Socials implements Serializable {
      * @param receiverPhone
      * @param message
      */
-    public void sendVoiceMessage(String userSender, String userReceiver, String receiverPhone, String message) {
+    public Response sendVoiceMessage(String userSender, String userReceiver, String receiverPhone, String message) {
         ResourceBundle waziupNotificationBundle = ResourceBundle.getBundle("parameters");
         Plivo.init(waziupNotificationBundle.getString("api_key"), waziupNotificationBundle.getString("api_token"));
         try {
 
             String myURI = "http://callcenter-callcenter.a3c1.starter-us-west-1.openshiftapps.com/callback/" + message;
             System.out.println(myURI);
-            Call.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), myURI)
-                    .answerMethod("GET")
-                    .create();
+            Call.creator(waziupNotificationBundle.getString("telephonesrc"), Collections.singletonList(receiverPhone), myURI).answerMethod("GET").create();
+            return Response.ok().build();
         } catch (IOException | PlivoRestException ex) {
             Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.serverError().entity("voice message not sent:" + ex).build();
         }
     }
 
