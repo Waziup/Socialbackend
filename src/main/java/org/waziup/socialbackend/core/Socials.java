@@ -178,15 +178,14 @@ public class Socials implements Serializable {
      * @param message
      */
     public Response sendTwitterMessage(String userSender, String userReceiver, String receiverProfile, String message) {
-        Logger.getLogger(Socials.class.getName()).log(Level.SEVERE, "Sending twitter to {0} with message: {1}", new Object[]{receiverProfile, message});
+        Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Sending twitter to {0} with message: {1}", new Object[]{receiverProfile, message});
         Response.ResponseBuilder response;
         try {
-            tweet = twitter.sendDirectMessage("corentindupont2", "Test");
+            tweet = twitter.sendDirectMessage(receiverProfile, message);
             Document notification = new Document("userSender", userSender).append("userReceiver", userReceiver)
                     .append("user_id", receiverProfile).append("channel", "SMS").append("message", message)
                     .append("status", "Delivered").append("insertTime", LocalDateTime.now().toString());
             notificationbean.createNotification(notification);
-            Logger.getLogger(Socials.class.getName()).log(Level.INFO, "Message delivered by {0} to {1}", new Object[]{tweet.getSenderScreenName(), tweet.getRecipientScreenName()});
             response = Response.ok("Tweeter message sent");
 
         } catch (TwitterException ex) {
