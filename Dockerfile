@@ -13,7 +13,7 @@ RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binari
 RUN  mkdir -p  /opt/Socialbackend
 WORKDIR /opt/Socialbackend
 ADD pom.xml /opt/Socialbackend
-RUN mvn verify clean --fail-never
+RUN mvn verify clean install --fail-never
 
 #install full app
 ADD . /opt/Socialbackend
